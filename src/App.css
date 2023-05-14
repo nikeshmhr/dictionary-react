@@ -1,42 +1,103 @@
-#root {
-  max-width: 1280px;
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 36px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-form label {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.search-form input[type="text"] {
+  padding: 5px;
+  font-size: 18px;
+  border: none;
+  border-radius: 3px;
+  width: 300px;
+  margin-right: 10px;
+}
+
+.search-form button[type="submit"] {
+  padding: 5px 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 3px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.word {
+  font-size: 36px;
+  margin: 0 0 10px 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.pronunciation {
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.text {
+  font-size: 24px;
+  margin-right: 10px;
 }
 
-.card {
-  padding: 2em;
+.audio {
+  display: inline-block;
 }
 
-.read-the-docs {
-  color: #888;
+.origin h2 {
+  margin-top: 0;
+}
+
+.meanings {
+  margin-top: 20px;
+}
+
+.meanings h2 {
+  margin: 0;
+}
+
+.definition {
+  margin-bottom: 20px;
+}
+
+.definition .def {
+  margin: 0;
+}
+
+.definition .example {
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.definition .synonyms,
+.definition .antonyms {
+  margin-top: 5px;
+}
+
+.definition .synonyms strong,
+.definition .antonyms strong {
+  font-weight: bold;
+  margin-right: 5px;
 }
