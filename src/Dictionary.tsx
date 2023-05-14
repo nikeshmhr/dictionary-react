@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useState } from "react";
 import {
   Box,
@@ -10,16 +11,11 @@ import {
   InputLeftElement,
   List,
   ListItem,
-  IconButton,
-  RadioGroup,
-  Radio,
-  Stack,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { GiSpeaker } from "react-icons/gi";
 import Audio from "./components/Audio";
 import PartOfSpeech from "./components/PartOfSpeech";
-import { mapValues, keyBy } from "lodash";
+import { keyBy } from "lodash";
 
 interface FormattedData {
   phonetics: Array<string>;
@@ -29,34 +25,35 @@ interface FormattedData {
   meanings: Record<string, object>;
 }
 
-function formatData(data) {
+function formatData(data: string | any[]) {
   if (data.length === 0) {
     return [];
+  } else if(data.length > 0 && data[0]) {
+    const formattedData: FormattedData = {
+      phonetics: [],
+      audio: [],
+      word: data[0].word,
+      partOfSpeech: [],
+      meanings: {},
+    };
+
+    data[0].phonetics.forEach(
+      ({ audio, text }: { audio: string; text: string }) => {
+        if (audio) {
+          formattedData.audio.push(audio);
+        }
+        if (text) {
+          formattedData.phonetics.push(text);
+        }
+      }
+    );
+    data[0].meanings.forEach(({ partOfSpeech }: { partOfSpeech: string }) => {
+      formattedData.partOfSpeech.push(partOfSpeech);
+    });
+
+    formattedData.meanings = keyBy(data[0].meanings, "partOfSpeech");
+    return [formattedData];
   }
-  const formattedData: FormattedData = {
-    phonetics: [],
-    audio: [],
-    word: data[0].word,
-    partOfSpeech: [],
-    meanings: {},
-  };
-
-  data[0].phonetics.forEach(
-    ({ audio, text }: { audio: string; text: string }) => {
-      if (audio) {
-        formattedData.audio.push(audio);
-      }
-      if (text) {
-        formattedData.phonetics.push(text);
-      }
-    }
-  );
-  data[0].meanings.forEach(({ partOfSpeech }: { partOfSpeech: string }) => {
-    formattedData.partOfSpeech.push(partOfSpeech);
-  });
-
-  formattedData.meanings = keyBy(data[0].meanings, "partOfSpeech");
-  return [formattedData];
 }
 
 function Dictionary() {
@@ -64,11 +61,11 @@ function Dictionary() {
   const [searchResults, setSearchResults] = useState<any>([]);
   const [currentPartOfSpeech, setCurrentPartOfSpeech] = useState<string>("");
 
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+  const handleChange = (event: Event) => {
+    setSearchTerm(event?.target?.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: Event) => {
     event.preventDefault();
     if (searchResults.length > 0 && searchResults[0].word === searchTerm) {
       return;

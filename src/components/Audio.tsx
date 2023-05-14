@@ -1,5 +1,5 @@
 import { IconButton } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { GiSpeaker } from "react-icons/gi";
 
 interface IAudioProps {

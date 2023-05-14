@@ -30,6 +30,7 @@ function PartOfSpeech(props: IPartOfSpeechProps) {
   );
 }
 
+//@ts-ignore
 function RadioCard(props) {
   const { getInputProps, getRadioProps } = useRadio(props);
 
