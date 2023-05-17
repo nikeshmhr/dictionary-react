@@ -1,26 +1,11 @@
 //@ts-nocheck
-import { useState } from "react";
-import {
-    Box,
-    Button,
-    Container,
-    Heading,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    ListItem,
-    OrderedList,
-    SimpleGrid,
-    Skeleton,
-    Text,
-    UnorderedList,
-} from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
-import Audio from "./components/Audio";
-import PartOfSpeech from "./components/PartOfSpeech";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Container, Skeleton, } from "@chakra-ui/react";
 import keyBy from "lodash/keyBy";
+import Search from "./components/Search";
+import Result from "./components/Result";
 
-interface FormattedData {
+export interface FormattedData {
     phonetics: Array<string>;
     audio: Array<string>;
     word: string;
@@ -67,11 +52,11 @@ function Dictionary() {
     const [currentPartOfSpeech, setCurrentPartOfSpeech] = useState<string>("");
     const [isSearching, setIsSearching] = useState<boolean>(false);
 
-    const handleChange = (event: Event) => {
+    const handleChange = (event: ChangeEvent) => {
         setSearchTerm(event?.target?.value);
     };
 
-    const handleSubmit = async(event: Event) => {
+    const handleSubmit = async(event: FormEvent) => {
         event.preventDefault();
         if(searchResults.length > 0 && (searchResults[0].word === searchTerm || isSearching)) {
             return;
@@ -96,99 +81,15 @@ function Dictionary() {
         setCurrentPartOfSpeech(selectedPartOfSpeech);
     };
 
-    console.log(searchResults);
-    const meaning = searchResults[0]?.meanings?.[currentPartOfSpeech];
-    console.log({ meaning });
-
     return (
         <Container maxW="container.md" py={8}>
-            <Box my={8}>
-                <form onSubmit={handleSubmit}>
-                    <InputGroup>
-                        <InputLeftElement
-                            pointerEvents="none"
-                            children={<SearchIcon color="gray.300"/>}
-                        />
-                        <Input
-                            type="text"
-                            placeholder="Search for a word"
-                            value={searchTerm}
-                            onChange={handleChange}
-                            autoFocus={true}
-                        />
-                        <Button type="submit" colorScheme="teal" isLoading={isSearching} disabled={isSearching}
-                                loadingText="Searching">
-                            Search
-                        </Button>
-                    </InputGroup>
-                </form>
-            </Box>
+            <Search isSearching={isSearching} searchTerm={searchTerm} handleChange={handleChange}
+                    handleSubmit={handleSubmit}/>
             {
                 isSearching && <Skeleton height="100px"/>
             }
-            {!isSearching && searchResults.length > 0 && (
-                <Box>
-                    {searchResults.map((result, index) => (
-                        <Box key={index} my={8}>
-                            <Heading as="h2" size="lg">
-                                {result.word}
-                            </Heading>
-                            <Box key={index} mb={4}>
-                                <Text color="teal" mb={2}>
-                                    {result.phonetics.join(", ")}
-                                    <Audio audio={result.audio}/>
-                                </Text>
-                            </Box>
-                            <Box key={index} my={4}>
-                                <PartOfSpeech
-                                    speech={result.partOfSpeech}
-                                    onClick={onPartOfSpeechHandler}
-                                />
-                            </Box>
-                            <Box my={4}>
-                                <Text>{result.origin}</Text>
-                            </Box>
-                            <Box my={4}>
-                                <Heading color="teal" as="h5" size="sm" className="uppercase">
-                                    Definitions <span
-                                    className="text-gray-500 text-sm">{meaning.definitions.length}</span>
-                                </Heading>
-                                <OrderedList mb={5}>
-                                    {meaning.definitions.map(({ definition }, index) => (
-                                        <ListItem key={index}>
-                                            {definition}
-                                        </ListItem>
-                                    ))}
-                                </OrderedList>
-                                <SimpleGrid columns={2}>
-                                    <Heading color="teal" as="h5" size="sm" className="uppercase">
-                                        Synonyms <span
-                                        className="text-gray-500 text-sm">{meaning.synonyms.length}</span>
-                                    </Heading>
-                                    <Heading color="teal" as="h5" size="sm" className="uppercase">
-                                        Antonyms <span
-                                        className="text-gray-500 text-sm">{meaning.antonyms.length}</span>
-                                    </Heading>
-                                    <UnorderedList styleType="none">
-                                        {meaning.synonyms.map((synonym, index) => (
-                                            <ListItem key={index}>
-                                                {synonym}
-                                            </ListItem>
-                                        ))}
-                                    </UnorderedList>
-                                    <UnorderedList styleType="none">
-                                        {meaning.antonyms.map((antonyms, index) => (
-                                            <ListItem key={index}>
-                                                {antonyms}
-                                            </ListItem>
-                                        ))}
-                                    </UnorderedList>
-                                </SimpleGrid>
-                            </Box>
-                        </Box>
-                    ))}
-                </Box>
-            )}
+            <Result searchResults={searchResults} isSearching={isSearching}
+                    onPartOfSpeechHandler={onPartOfSpeechHandler} currentPartOfSpeech={currentPartOfSpeech}/>
         </Container>
     );
 }
