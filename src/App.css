@@ -1,103 +1,103 @@
 .header {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header h1 {
-  margin: 0;
-  font-size: 36px;
+    margin: 0;
+    font-size: 36px;
 }
 
 .search-form {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .search-form label {
-  margin-right: 10px;
-  font-size: 18px;
+    margin-right: 10px;
+    font-size: 18px;
 }
 
 .search-form input[type="text"] {
-  padding: 5px;
-  font-size: 18px;
-  border: none;
-  border-radius: 3px;
-  width: 300px;
-  margin-right: 10px;
+    padding: 5px;
+    font-size: 18px;
+    border: none;
+    border-radius: 3px;
+    width: 300px;
+    margin-right: 10px;
 }
 
 .search-form button[type="submit"] {
-  padding: 5px 10px;
-  font-size: 18px;
-  border: none;
-  border-radius: 3px;
-  background-color: #fff;
-  color: #333;
-  cursor: pointer;
+    padding: 5px 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
 }
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
-  padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
 .word {
-  font-size: 36px;
-  margin: 0 0 10px 0;
+    font-size: 36px;
+    margin: 0 0 10px 0;
 }
 
 .pronunciation {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .text {
-  font-size: 24px;
-  margin-right: 10px;
+    font-size: 24px;
+    margin-right: 10px;
 }
 
 .audio {
-  display: inline-block;
+    display: inline-block;
 }
 
 .origin h2 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .meanings {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .meanings h2 {
-  margin: 0;
+    margin: 0;
 }
 
 .definition {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .definition .def {
-  margin: 0;
+    margin: 0;
 }
 
 .definition .example {
-  margin-top: 5px;
-  font-style: italic;
+    margin-top: 5px;
+    font-style: italic;
 }
 
 .definition .synonyms,
 .definition .antonyms {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .definition .synonyms strong,
 .definition .antonyms strong {
-  font-weight: bold;
-  margin-right: 5px;
+    font-weight: bold;
+    margin-right: 5px;
 }

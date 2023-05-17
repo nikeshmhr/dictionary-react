@@ -5,9 +5,9 @@ import "./index.css";
 import Dictionary from "./Dictionary.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <Dictionary />
-    </ChakraProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <ChakraProvider>
+            <Dictionary/>
+        </ChakraProvider>
+    </React.StrictMode>
 );
