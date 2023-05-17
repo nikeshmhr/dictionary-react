@@ -11,13 +11,14 @@ import {
     ListItem,
     OrderedList,
     SimpleGrid,
+    Skeleton,
     Text,
     UnorderedList,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Audio from "./components/Audio";
 import PartOfSpeech from "./components/PartOfSpeech";
-import { keyBy } from "lodash";
+import keyBy from "lodash/keyBy";
 
 interface FormattedData {
     phonetics: Array<string>;
@@ -64,6 +65,7 @@ function Dictionary() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState<any>([]);
     const [currentPartOfSpeech, setCurrentPartOfSpeech] = useState<string>("");
+    const [isSearching, setIsSearching] = useState<boolean>(false);
 
     const handleChange = (event: Event) => {
         setSearchTerm(event?.target?.value);
@@ -71,16 +73,23 @@ function Dictionary() {
 
     const handleSubmit = async(event: Event) => {
         event.preventDefault();
-        if(searchResults.length > 0 && searchResults[0].word === searchTerm) {
+        if(searchResults.length > 0 && (searchResults[0].word === searchTerm || isSearching)) {
             return;
         }
-        const response = await fetch(
-            `https://api.dictionaryapi.dev/api/v2/entries/en/${searchTerm}`
-        );
-        const data = await response.json();
-        const formattedData = formatData(data);
-        setSearchResults(formattedData);
-        setCurrentPartOfSpeech(formattedData[0].partOfSpeech[0]);
+        try {
+            setIsSearching(true);
+            const response = await fetch(
+                `https://api.dictionaryapi.dev/api/v2/entries/en/${searchTerm}`
+            );
+            const data = await response.json();
+            const formattedData = formatData(data);
+            setSearchResults(formattedData);
+            setCurrentPartOfSpeech(formattedData[0].partOfSpeech[0]);
+        } catch(err) {
+            console.error("API ERROR");
+        } finally {
+            setIsSearching(false);
+        }
     };
 
     const onPartOfSpeechHandler = (selectedPartOfSpeech: string) => {
@@ -107,13 +116,17 @@ function Dictionary() {
                             onChange={handleChange}
                             autoFocus={true}
                         />
-                        <Button type="submit" colorScheme="teal">
+                        <Button type="submit" colorScheme="teal" isLoading={isSearching} disabled={isSearching}
+                                loadingText="Searching">
                             Search
                         </Button>
                     </InputGroup>
                 </form>
             </Box>
-            {searchResults.length > 0 && (
+            {
+                isSearching && <Skeleton height="100px"/>
+            }
+            {!isSearching && searchResults.length > 0 && (
                 <Box>
                     {searchResults.map((result, index) => (
                         <Box key={index} my={8}>
