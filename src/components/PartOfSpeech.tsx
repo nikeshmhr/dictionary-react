@@ -30,8 +30,12 @@ function PartOfSpeech(props: IPartOfSpeechProps) {
     );
 }
 
-//@ts-ignore
-function RadioCard(props) {
+function RadioCard(props: React.AriaAttributes & React.DOMAttributes<HTMLInputElement> & {
+    id?: string | undefined;
+    role?: React.AriaRole | undefined;
+    tabIndex?: number | undefined;
+    style?: React.CSSProperties | undefined;
+}) {
     const { getInputProps, getRadioProps } = useRadio(props);
 
     const input = getInputProps();

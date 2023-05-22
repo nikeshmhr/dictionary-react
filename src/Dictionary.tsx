@@ -1,19 +1,30 @@
-//@ts-nocheck
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Container, Skeleton, } from "@chakra-ui/react";
 import keyBy from "lodash/keyBy";
 import Search from "./components/Search";
 import Result from "./components/Result";
 
+interface DefinitionsEntity {
+    definition: string;
+    synonyms: Array<void>;
+    antonyms: Array<void>;
+}
+interface Meaning {
+    partOfSpeech: string;
+    definitions: Array<DefinitionsEntity>;
+    synonyms?: Array<string>;
+    antonyms?: Array<string>;
+}
 export interface FormattedData {
     phonetics: Array<string>;
     audio: Array<string>;
     word: string;
     partOfSpeech: Array<string>;
-    meanings: Record<string, object>;
+    meanings: Record<string, Meaning>;
+    origin?: string;
 }
 
-function formatData(data: string | any[]) {
+function formatData(data: Array<any>) {
     if(data.length === 0) {
         return [];
     } else if(data.length > 0 && data[0]) {
@@ -52,7 +63,7 @@ function Dictionary() {
     const [currentPartOfSpeech, setCurrentPartOfSpeech] = useState<string>("");
     const [isSearching, setIsSearching] = useState<boolean>(false);
 
-    const handleChange = (event: ChangeEvent) => {
+    const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event?.target?.value);
     };
 
@@ -67,7 +78,7 @@ function Dictionary() {
                 `https://api.dictionaryapi.dev/api/v2/entries/en/${searchTerm}`
             );
             const data = await response.json();
-            const formattedData = formatData(data);
+            const formattedData = formatData(data) ?? [];
             setSearchResults(formattedData);
             setCurrentPartOfSpeech(formattedData[0].partOfSpeech[0]);
         } catch(err) {

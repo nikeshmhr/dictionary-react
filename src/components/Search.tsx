@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent } from "react";
 
 interface ISearchProps {
     handleSubmit: (e: FormEvent) => void;
-    handleChange: (e: ChangeEvent) => void;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     isSearching: boolean;
     searchTerm: string;
 }

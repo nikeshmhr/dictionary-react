@@ -56,21 +56,21 @@ function Result(props: IResultProps) {
                         <SimpleGrid columns={2}>
                             <Heading color="teal" as="h5" size="sm" className="uppercase">
                                 Synonyms <span
-                                className="text-gray-500 text-sm">{meaning.synonyms.length}</span>
+                                className="text-gray-500 text-sm">{meaning.synonyms?.length}</span>
                             </Heading>
                             <Heading color="teal" as="h5" size="sm" className="uppercase">
                                 Antonyms <span
-                                className="text-gray-500 text-sm">{meaning.antonyms.length}</span>
+                                className="text-gray-500 text-sm">{meaning.antonyms?.length}</span>
                             </Heading>
                             <UnorderedList styleType="none">
-                                {meaning.synonyms.map((synonym, index) => (
+                                {meaning.synonyms?.map((synonym, index) => (
                                     <ListItem key={index}>
                                         {synonym}
                                     </ListItem>
                                 ))}
                             </UnorderedList>
                             <UnorderedList styleType="none">
-                                {meaning.antonyms.map((antonyms, index) => (
+                                {meaning.antonyms?.map((antonyms, index) => (
                                     <ListItem key={index}>
                                         {antonyms}
                                     </ListItem>
