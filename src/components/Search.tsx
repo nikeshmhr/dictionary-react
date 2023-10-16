@@ -21,6 +21,7 @@ function Search(props: ISearchProps) {
                 />
                 <Input
                     type="text"
+                    className="search-input"
                     placeholder="Search for a word"
                     value={searchTerm}
                     onChange={handleChange}
