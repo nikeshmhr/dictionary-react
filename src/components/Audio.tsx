@@ -11,6 +11,7 @@ function Audio(props: IAudioProps) {
 
     const onClickHandler = () => {
         if(audioRef.current) {
+            audioRef.current.currentTime = 0;
             audioRef.current.play();
         }
     };

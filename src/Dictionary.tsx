@@ -25,9 +25,9 @@ export interface FormattedData {
 }
 
 function formatData(data: Array<any>) {
-    if(data.length === 0) {
+    if (data.length === 0) {
         return [];
-    } else if(data.length > 0 && data[0]) {
+    } else if (data.length > 0 && data[0]) {
         const formattedData: FormattedData = {
             phonetics: [],
             audio: [],
@@ -38,16 +38,16 @@ function formatData(data: Array<any>) {
 
         data[0].phonetics.forEach(
             ({ audio, text }: { audio: string; text: string }) => {
-                if(audio) {
+                if (audio) {
                     formattedData.audio.push(audio);
                 }
-                if(text) {
+                if (text) {
                     formattedData.phonetics.push(text);
                 }
             }
         );
         data[0].meanings.forEach(({ partOfSpeech }: { partOfSpeech: string }) => {
-            if(!formattedData.partOfSpeech.includes(partOfSpeech)) {
+            if (!formattedData.partOfSpeech.includes(partOfSpeech)) {
                 formattedData.partOfSpeech.push(partOfSpeech);
             }
         });
@@ -63,13 +63,13 @@ function Dictionary() {
     const [currentPartOfSpeech, setCurrentPartOfSpeech] = useState<string>("");
     const [isSearching, setIsSearching] = useState<boolean>(false);
 
-    const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event?.target?.value);
     };
 
-    const handleSubmit = async(event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        if(searchResults.length > 0 && (searchResults[0].word === searchTerm || isSearching)) {
+        if (searchResults.length > 0 && (searchResults[0].word === searchTerm || isSearching)) {
             return;
         }
         try {
@@ -81,7 +81,8 @@ function Dictionary() {
             const formattedData = formatData(data) ?? [];
             setSearchResults(formattedData);
             setCurrentPartOfSpeech(formattedData[0].partOfSpeech[0]);
-        } catch(err) {
+        } catch (err) {
+            setSearchResults([]);
             console.error("API ERROR");
         } finally {
             setIsSearching(false);
@@ -95,12 +96,12 @@ function Dictionary() {
     return (
         <Container maxW="container.md" py={8}>
             <Search isSearching={isSearching} searchTerm={searchTerm} handleChange={handleChange}
-                    handleSubmit={handleSubmit}/>
+                handleSubmit={handleSubmit} />
             {
-                isSearching && <Skeleton height="100px"/>
+                isSearching ? <Skeleton height="container.sm" /> :
+                    <Result searchResults={searchResults} isSearching={isSearching}
+                        onPartOfSpeechHandler={onPartOfSpeechHandler} currentPartOfSpeech={currentPartOfSpeech} />
             }
-            <Result searchResults={searchResults} isSearching={isSearching}
-                    onPartOfSpeechHandler={onPartOfSpeechHandler} currentPartOfSpeech={currentPartOfSpeech}/>
         </Container>
     );
 }

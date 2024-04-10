@@ -2,6 +2,7 @@ import { Box, Heading, ListItem, OrderedList, SimpleGrid, Text, UnorderedList } 
 import Audio from "./Audio";
 import PartOfSpeech from "./PartOfSpeech";
 import { FormattedData } from "../Dictionary";
+import NotFound from "./NotFound";
 
 interface IResultProps {
     isSearching: boolean;
@@ -13,14 +14,14 @@ interface IResultProps {
 function Result(props: IResultProps) {
     const { isSearching, searchResults, onPartOfSpeechHandler, currentPartOfSpeech } = props;
 
-    if(isSearching || searchResults.length === 0) {
-        return null;
+    if (!isSearching && searchResults.length === 0) {
+        return <NotFound />;
 
     }
     const meaning = searchResults[0]?.meanings?.[currentPartOfSpeech];
 
     return (
-        <Box>
+        <Box className="shadow-inner border w-full h-auto px-8">
             {searchResults.map((result, index) => (
                 <Box key={index} my={8}>
                     <Heading as="h2" size="lg">
@@ -29,7 +30,7 @@ function Result(props: IResultProps) {
                     <Box key={index} mb={4}>
                         <Text color="teal" mb={2}>
                             {result.phonetics.join(", ")}
-                            <Audio audio={result.audio}/>
+                            <Audio audio={result.audio} />
                         </Text>
                     </Box>
                     <Box key={index} my={4}>
@@ -44,7 +45,7 @@ function Result(props: IResultProps) {
                     <Box my={4}>
                         <Heading color="teal" as="h5" size="sm" className="uppercase">
                             Definitions <span
-                            className="text-gray-500 text-sm">{meaning.definitions.length}</span>
+                                className="text-gray-500 text-sm">{meaning.definitions.length}</span>
                         </Heading>
                         <OrderedList mb={5}>
                             {meaning.definitions.map(({ definition }, index) => (
@@ -56,11 +57,11 @@ function Result(props: IResultProps) {
                         <SimpleGrid columns={2}>
                             <Heading color="teal" as="h5" size="sm" className="uppercase">
                                 Synonyms <span
-                                className="text-gray-500 text-sm">{meaning.synonyms?.length}</span>
+                                    className="text-gray-500 text-sm">{meaning.synonyms?.length}</span>
                             </Heading>
                             <Heading color="teal" as="h5" size="sm" className="uppercase">
                                 Antonyms <span
-                                className="text-gray-500 text-sm">{meaning.antonyms?.length}</span>
+                                    className="text-gray-500 text-sm">{meaning.antonyms?.length}</span>
                             </Heading>
                             <UnorderedList styleType="none">
                                 {meaning.synonyms?.map((synonym, index) => (

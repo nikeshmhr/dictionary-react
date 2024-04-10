@@ -11,13 +11,13 @@ interface ISearchProps {
 
 function Search(props: ISearchProps) {
     const { handleSubmit, isSearching, searchTerm, handleChange } = props;
-    
+
     return <Box my={8}>
         <form onSubmit={handleSubmit}>
-            <InputGroup>
+            <InputGroup className="flex-col gap-4 md:flex-row">
                 <InputLeftElement
                     pointerEvents="none"
-                    children={<SearchIcon color="gray.300"/>}
+                    children={<SearchIcon color="gray.300" />}
                 />
                 <Input
                     type="text"
@@ -27,7 +27,7 @@ function Search(props: ISearchProps) {
                     autoFocus={true}
                 />
                 <Button type="submit" colorScheme="teal" isLoading={isSearching} disabled={isSearching}
-                        loadingText="Searching">
+                    loadingText="Search">
                     Search
                 </Button>
             </InputGroup>

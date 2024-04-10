@@ -18,7 +18,6 @@ function PartOfSpeech(props: IPartOfSpeechProps) {
             {
                 props.speech.map((value) => {
                     const radio = getRadioProps({ value });
-                    console.log({ group, radio });
                     return (
                         <RadioCard key={value} {...radio}>
                             {value}
